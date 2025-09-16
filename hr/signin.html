@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In</title>
+  <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Sign In</h1>
+    <form class="form-box" id="loginForm">
+      <label for="name">Name</label>
+      <input type="text" id="name" placeholder="Enter your name" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Enter your email" required>
+
+      <label for="role">Login As</label>
+      <select id="role" required>
+        <option value="">-- Select Role --</option>
+        <option value="manager">Manager</option>
+        <option value="employee">Employee</option>
+        <option value="hr">HR</option>
+        <option value="admin">Admin</option>
+      </select>
+
+      <button type="submit" class="btn primary">Login</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const role = document.getElementById('role').value;
+
+      if (!role) {
+        alert('Please select a role');
+        return;
+      }
+
+      fetch('login.php', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  body: `name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&role=${encodeURIComponent(role)}`
+})
+.then(response => response.text())
+.then(result => {
+  alert("Server says: " + result); 
+        if (result.trim() === "success") {
+          if (role === 'manager') window.location.href = 'manager.html';
+          else if (role === 'employee') window.location.href = 'employee.html';
+          else if (role === 'hr') window.location.href = 'hr.html';
+          else if (role === 'admin') window.location.href = 'admin.html';
+        } else {
+          alert("Login failed. Try again.");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

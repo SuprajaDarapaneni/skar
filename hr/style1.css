@@ -1,0 +1,109 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Background */
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #b0c1de, #4facfe);
+  color: white;
+}
+
+/* Center container */
+.container {
+  text-align: center;
+}
+
+/* Welcome Page (index.html) */
+.container h1 {
+  font-size: 50px;
+  margin-bottom: 40px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn {
+  padding: 12px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.btn.primary {
+  background: white;
+  color: #0b66ff;
+  font-weight: bold;
+}
+
+.btn.primary:hover {
+  background: #f1f1f1;
+}
+
+.btn.secondary {
+  border: 2px solid white;
+  color: white;
+}
+
+.btn.secondary:hover {
+  background: white;
+  color: #0b66ff;
+}
+
+/* ---------- Sign In Page (signin.html) ---------- */
+.form-box {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  color: #333;
+  padding: 25px;
+  border-radius: 10px;
+  width: 300px;
+  margin: 0 auto;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
+.form-box h1 {
+  color: #0b66ff;
+  margin-bottom: 20px;
+}
+
+.form-box label {
+  margin: 10px 0 5px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.form-box input,
+.form-box select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.form-box button {
+  margin-top: 20px;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background: #799ad4;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.form-box button:hover {
+  background: #6e92da;
+}

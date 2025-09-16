@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="dashboard.js" defer></script>
+</head>
+<body>
+  <div id="dashboard" class="dashboard">
+    <nav class="navbar">
+      <div class="nav-title">Admin Dashboard</div>
+      <div class="nav-user">
+        <span>Admin</span>
+        <button class="logout-btn" onclick="window.location.href='main.html'">Logout</button>
+      </div>
+    </nav>
+
+    <div class="dashboard-content">
+      <aside class="sidebar">
+        <div class="menu-item active" onclick="loadPage('overview')">📊 Overview</div>
+        <div class="menu-item" onclick="loadPage('employee-management')">👥 Employee Management</div>
+        <div class="menu-item" onclick="loadPage('department-management')">🏢 Department Management</div>
+        <div class="menu-item" onclick="loadPage('attendance-leave')">📅 Attendance & Leave</div>
+        <div class="menu-item" onclick="loadPage('payroll-management')">💰 Payroll Management</div>
+        <div class="menu-item" onclick="loadPage('reports-analytics')">📈 Reports & Analytics</div>
+        <div class="menu-item" onclick="loadPage('settings')">⚙️ Settings</div>
+      </aside>
+
+      <main class="main-content">
+        <div id="page-content"></div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
