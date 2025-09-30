@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manager Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div id="dashboard" class="dashboard">
+    <nav class="navbar">
+      <div class="nav-title">Manager Dashboard</div>
+      <div class="nav-user">
+        <span>{{ user.name }}</span>
+        <button class="logout-btn" onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
+      </div>
+    </nav>
+
+    <div class="dashboard-content">
+      <aside class="sidebar">
+        <div class="menu-item active" onclick="loadPage('team-overview')">👥 Team Overview</div>
+        <div class="menu-item" onclick="loadLeaveAttendance()">📅 Leave & Attendance</div>
+        <div class="menu-item" onclick="loadPage('performance')">⭐ Performance</div>
+        <div class="menu-item" onclick="loadPage('reports')">📊 Reports</div>
+        <div class="menu-item" onclick="loadEmployees()">👨‍💼 Employee Details</div>
+      </aside>
+
+      <main class="main-content">
+        <div id="page-content"></div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Default dummy loader for unused pages
+    function loadPage(page) {
+      document.getElementById('page-content').innerHTML =
+        `<h2>${page.replace('-', ' ')}</h2><p>Content coming soon...</p>`;
+    }
+
+    // Load all employees
+    function loadEmployees() {
+      fetch('/get_employees')
+        .then(res => res.json())
+        .then(data => {
+          let html = `<h2>All Employees</h2>
+                      <table border="1" cellpadding="8">
+                        <tr>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Role</th>
+                        </tr>`;
+          data.forEach(emp => {
+            html += `<tr>
+                       <td>${emp.name}</td>
+                       <td>${emp.email}</td>
+                       <td>${emp.role}</td>
+                     </tr>`;
+          });
+          html += `</table>`;
+          document.getElementById('page-content').innerHTML = html;
+        });
+    }
+
+    // Load employee names for attendance
+    function loadLeaveAttendance() {
+      fetch('/get_employee_names')
+        .then(res => res.json())
+        .then(data => {
+          let html = `<h2>Leave & Attendance</h2><ul>`;
+          data.forEach(emp => {
+            html += `<li>
+              <button onclick="viewAttendance(${emp.id}, '${emp.name}')">${emp.name}</button>
+            </li>`;
+          });
+          html += `</ul>
+                   <div id="attendance-details"></div>`;
+          document.getElementById('page-content').innerHTML = html;
+        });
+    }
+
+    // View selected employee attendance
+    function viewAttendance(empId, name) {
+      fetch(`/get_employee_attendance/${empId}`)
+        .then(res => res.json())
+        .then(data => {
+          let present = 0, leave = 0, absent = 0;
+          let table = `<h3>${name}'s Attendance</h3>
+                       <table border="1" cellpadding="8">
+                         <tr><th>Date</th><th>Status</th></tr>`;
+          data.forEach(row => {
+            if (row.status === 'Present') present++;
+            if (row.status === 'Leave') leave++;
+            if (row.status === 'Absent') absent++;
+            table += `<tr><td>${row.date}</td><td>${row.status}</td></tr>`;
+          });
+          table += `</table>
+                    <p>Total Present: ${present} | Total Leave: ${leave} | Total Absent: ${absent}</p>`;
+          document.getElementById('attendance-details').innerHTML = table;
+        });
+    }
+  </script>
+</body>
+</html>
